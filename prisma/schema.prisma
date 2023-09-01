@@ -19,4 +19,6 @@ model User {
   contactNo  String
   address    String
   profileImg String
+
+  @@map("users")
 }

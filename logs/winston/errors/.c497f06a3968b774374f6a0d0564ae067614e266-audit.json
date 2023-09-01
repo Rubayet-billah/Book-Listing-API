@@ -1,0 +1,15 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 14
+    },
+    "auditLog": "F:\\Projects\\Next Level Development\\Mission-08 UM Core service\\book-catalouge-backend\\logs\\winston\\errors\\.c497f06a3968b774374f6a0d0564ae067614e266-audit.json",
+    "files": [
+        {
+            "date": 1693598944429,
+            "name": "F:\\Projects\\Next Level Development\\Mission-08 UM Core service\\book-catalouge-backend\\logs\\winston\\errors\\phu-2023-02-09-02-error.log",
+            "hash": "a534bae06368d601a4b9bbe04b81d53590b81af979c5de175dfb6fc106e7255a"
+        }
+    ],
+    "hashType": "sha256"
+}
