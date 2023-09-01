@@ -19,6 +19,18 @@ const signupUser = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const getAllUsers = catchAsync(async (req: Request, res: Response) => {
+  const result = await userService.getAllUsers();
+
+  sendResponse<User[]>(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'user retrieved successfully',
+    data: result,
+  });
+});
+
 export const userController = {
   signupUser,
+  getAllUsers,
 };
