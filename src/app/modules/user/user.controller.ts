@@ -69,8 +69,30 @@ const getAllUsers = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const getSingleUser = catchAsync(async (req: Request, res: Response) => {
+  const { id } = req.params;
+  // Retrieve the user by id
+  const user = await userService.getSingleUser(id);
+
+  if (!user) {
+    return sendResponse(res, {
+      success: false,
+      statusCode: httpStatus.NOT_FOUND,
+      message: 'User not found',
+    });
+  }
+
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'User fetched successfully',
+    data: user,
+  });
+});
+
 export const userController = {
   signupUser,
-  getAllUsers,
   loginUser,
+  getAllUsers,
+  getSingleUser,
 };
