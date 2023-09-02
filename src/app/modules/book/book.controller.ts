@@ -4,7 +4,9 @@ import { Request, Response } from 'express';
 import httpStatus from 'http-status';
 import ApiError from '../../../errors/ApiError';
 import catchAsync from '../../../shared/catchAsync';
+import pick from '../../../shared/pick';
 import sendResponse from '../../../shared/sendResponse';
+import { bookSearchableFields } from './book.constants';
 import { bookService } from './book.service';
 
 const createBook = catchAsync(async (req: Request, res: Response) => {
@@ -20,7 +22,9 @@ const createBook = catchAsync(async (req: Request, res: Response) => {
 });
 
 const getAllBooks = catchAsync(async (req: Request, res: Response) => {
-  const books = await bookService.getAllBooks();
+  const filters = pick(req.query, bookSearchableFields);
+  const options = pick(req.query, ['limit', 'page', 'sortBy', 'sortOrder']);
+  const books = await bookService.getAllBooks(filters, options);
 
   sendResponse(res, {
     success: true,
