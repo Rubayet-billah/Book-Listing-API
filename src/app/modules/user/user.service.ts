@@ -55,9 +55,55 @@ const getSingleUser = async (id: string): Promise<User | null> => {
   return user;
 };
 
+const updateUser = async (
+  userId: string,
+  updatedUserData: Partial<User>
+): Promise<User | null> => {
+  const existingUser = await prisma.user.findUnique({
+    where: {
+      id: userId,
+    },
+  });
+
+  if (!existingUser) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
+  }
+
+  const updatedUser = await prisma.user.update({
+    where: {
+      id: userId,
+    },
+    data: updatedUserData,
+  });
+
+  return updatedUser;
+};
+
+const deleteUser = async (userId: string): Promise<User | null> => {
+  const userToDelete = await prisma.user.findUnique({
+    where: {
+      id: userId,
+    },
+  });
+
+  if (!userToDelete) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
+  }
+
+  const deletedUser = await prisma.user.delete({
+    where: {
+      id: userId,
+    },
+  });
+
+  return deletedUser;
+};
+
 export const userService = {
   signupUser,
   getAllUsers,
   loginUser,
   getSingleUser,
+  updateUser,
+  deleteUser,
 };
