@@ -64,7 +64,7 @@ const getAllUsers = catchAsync(async (req: Request, res: Response) => {
   sendResponse<User[]>(res, {
     success: true,
     statusCode: httpStatus.OK,
-    message: 'user retrieved successfully',
+    message: 'users retrieved successfully',
     data: result,
   });
 });
@@ -74,18 +74,10 @@ const getSingleUser = catchAsync(async (req: Request, res: Response) => {
   // Retrieve the user by id
   const user = await userService.getSingleUser(id);
 
-  if (!user) {
-    return sendResponse(res, {
-      success: false,
-      statusCode: httpStatus.NOT_FOUND,
-      message: 'User not found',
-    });
-  }
-
   sendResponse(res, {
     success: true,
     statusCode: httpStatus.OK,
-    message: 'User fetched successfully',
+    message: 'User retrieved successfully',
     data: user,
   });
 });
