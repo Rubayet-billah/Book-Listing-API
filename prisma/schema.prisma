@@ -11,14 +11,17 @@ datasource db {
 }
 
 model User {
-  id         String   @id @default(uuid())
-  name       String
-  email      String   @unique
-  password   String
-  role       UserRole
-  contactNo  String
-  address    String
-  profileImg String
+  id               String            @id @default(uuid())
+  name             String
+  email            String            @unique
+  password         String
+  role             UserRole
+  contactNo        String
+  address          String
+  profileImg       String
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt()
+  reviewAndRatings ReviewAndRating[]
 
   @@map("users")
 }
@@ -26,4 +29,55 @@ model User {
 enum UserRole {
   admin
   customer
+}
+
+model Category {
+  id    String @id @default(uuid())
+  title String @unique
+  books Book[]
+}
+
+model Book {
+  id               String            @id @default(uuid())
+  title            String
+  author           String
+  price            Float
+  genre            String
+  publicationDate  DateTime
+  categoryId       String
+  category         Category          @relation(fields: [categoryId], references: [id])
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt()
+  reviewAndRatings ReviewAndRating[]
+
+  @@map("books")
+}
+
+model ReviewAndRating {
+  id     String @id @default(uuid())
+  review String
+  rating Int
+  userId String
+  bookId String
+  user   User   @relation(fields: [userId], references: [id])
+  book   Book   @relation(fields: [bookId], references: [id])
+
+  @@map("reviews_and_ratings")
+}
+
+model Order {
+  id           String      @id @default(uuid())
+  userId       String
+  orderedBooks Json // Using JSON field to store ordered books
+  status       OrderStatus @default(pending)
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt()
+
+  @@map("orders")
+}
+
+enum OrderStatus {
+  pending
+  shipped
+  delivered
 }

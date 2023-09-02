@@ -1,9 +1,7 @@
 // src/app/modules/user/user.service.ts
 
-import { PrismaClient, User } from '@prisma/client';
-// import prisma from '../../../shared/prisma';
-
-const prisma = new PrismaClient();
+import { User } from '@prisma/client';
+import prisma from '../../../shared/prisma';
 
 const signupUser = async (payload: User): Promise<User> => {
   const result = await prisma.user.create({
