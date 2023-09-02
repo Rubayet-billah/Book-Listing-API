@@ -1,6 +1,8 @@
 // src/app/modules/user/user.service.ts
 
 import { User } from '@prisma/client';
+import httpStatus from 'http-status';
+import ApiError from '../../../errors/ApiError';
 import prisma from '../../../shared/prisma';
 
 const signupUser = async (payload: User): Promise<User> => {
@@ -8,6 +10,34 @@ const signupUser = async (payload: User): Promise<User> => {
     data: payload,
   });
   return result;
+};
+
+const loginUser = async (
+  email: string,
+  password: string
+): Promise<User | null> => {
+  const isExist = await prisma.user.findUnique({
+    where: {
+      email,
+    },
+  });
+
+  if (!isExist) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'User does not exist');
+  }
+
+  if (isExist?.password !== password) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Wrong password');
+  }
+
+  const user = await prisma.user.findFirst({
+    where: {
+      email,
+      password,
+    },
+  });
+
+  return user;
 };
 
 const getAllUsers = async (): Promise<User[]> => {
@@ -18,4 +48,5 @@ const getAllUsers = async (): Promise<User[]> => {
 export const userService = {
   signupUser,
   getAllUsers,
+  loginUser,
 };
