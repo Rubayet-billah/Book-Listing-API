@@ -8,7 +8,7 @@ import { userController } from './user.controller';
 const router = express.Router();
 
 router.post('/signup', userController.signupUser);
-router.post('/login', userController.loginUser);
+router.post('/signin', userController.loginUser);
 router.get('/', auth(ENUM_USER_ROLE.ADMIN), userController.getAllUsers);
 router.get('/:id', auth(ENUM_USER_ROLE.ADMIN), userController.getSingleUser);
 router.patch('/:id', auth(ENUM_USER_ROLE.ADMIN), userController.updateUser);
