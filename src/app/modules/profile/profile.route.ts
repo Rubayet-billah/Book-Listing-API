@@ -10,6 +10,6 @@ const router = express.Router();
 router.get('/', auth(), profileController.getUserProfile);
 
 // Update User Profile
-router.put('/', auth(), profileController.updateUserProfile);
+router.patch('/', auth(), profileController.updateUserProfile);
 
 export const profileRouter = router;
