@@ -2,12 +2,13 @@
 
 import { Request, Response } from 'express';
 import httpStatus from 'http-status';
+import { JwtPayload } from 'jsonwebtoken';
 import catchAsync from '../../../shared/catchAsync';
 import sendResponse from '../../../shared/sendResponse';
 import { profileService } from './profile.service';
 
 const getUserProfile = catchAsync(async (req: Request, res: Response) => {
-  const { userId } = req.user; // Extract user ID from the authenticated user
+  const { userId } = req.user as JwtPayload; // Extract user ID from the authenticated user
   const userProfile = await profileService.getUserProfile(userId);
 
   sendResponse(res, {
@@ -19,7 +20,7 @@ const getUserProfile = catchAsync(async (req: Request, res: Response) => {
 });
 
 const updateUserProfile = catchAsync(async (req: Request, res: Response) => {
-  const { userId } = req.user; // Extract user ID from the authenticated user
+  const { userId } = req.user as JwtPayload; // Extract user ID from the authenticated user
   const userProfileUpdates = req.body;
   const updatedUserProfile = await profileService.updateUserProfile(
     userId,

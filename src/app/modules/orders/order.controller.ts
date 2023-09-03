@@ -2,12 +2,13 @@
 
 import { Request, Response } from 'express';
 import httpStatus from 'http-status';
+import { JwtPayload } from 'jsonwebtoken';
 import catchAsync from '../../../shared/catchAsync';
 import sendResponse from '../../../shared/sendResponse';
 import { orderService } from './order.service';
 
 const createOrder = catchAsync(async (req: Request, res: Response) => {
-  const { userId } = req.user; // Extract user ID from the authenticated user
+  const { userId } = req.user as JwtPayload; // Extract user ID from the authenticated user
   const orderData = req.body;
   const result = await orderService.createOrder(userId, orderData);
 
@@ -31,7 +32,7 @@ const getAllOrders = catchAsync(async (req: Request, res: Response) => {
 });
 
 const getCustomerOrders = catchAsync(async (req: Request, res: Response) => {
-  const { userId } = req.user; // Extract user ID from the authenticated user
+  const { userId } = req.user as JwtPayload; // Extract user ID from the authenticated user
   const customerOrders = await orderService.getCustomerOrders(userId);
 
   sendResponse(res, {
@@ -44,7 +45,7 @@ const getCustomerOrders = catchAsync(async (req: Request, res: Response) => {
 
 const getSingleOrderById = catchAsync(async (req: Request, res: Response) => {
   const { orderId } = req.params;
-  const { userId } = req.user;
+  const { userId } = req.user as JwtPayload;
   const order = await orderService.getSingleOrderById(orderId, userId);
 
   sendResponse(res, {
