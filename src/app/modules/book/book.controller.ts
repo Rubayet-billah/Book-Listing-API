@@ -6,7 +6,7 @@ import ApiError from '../../../errors/ApiError';
 import catchAsync from '../../../shared/catchAsync';
 import pick from '../../../shared/pick';
 import sendResponse from '../../../shared/sendResponse';
-import { bookSearchableFields } from './book.constants';
+import { bookFilterAbleFileds } from './book.constants';
 import { bookService } from './book.service';
 
 const createBook = catchAsync(async (req: Request, res: Response) => {
@@ -22,7 +22,7 @@ const createBook = catchAsync(async (req: Request, res: Response) => {
 });
 
 const getAllBooks = catchAsync(async (req: Request, res: Response) => {
-  const filters = pick(req.query, bookSearchableFields);
+  const filters = pick(req.query, bookFilterAbleFileds);
   const options = pick(req.query, ['limit', 'page', 'sortBy', 'sortOrder']);
   const books = await bookService.getAllBooks(filters, options);
 

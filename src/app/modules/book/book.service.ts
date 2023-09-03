@@ -25,7 +25,6 @@ const getAllBooks = async (
   const { page, limit, skip } = paginationHelpers.calculatePagination(options);
 
   const andConditions = [];
-
   if (search) {
     andConditions.push({
       OR: bookSearchableFields.map(field => ({
@@ -62,8 +61,6 @@ const getAllBooks = async (
       }),
     });
   }
-
-  return andConditions;
 
   const whereConditons: Prisma.BookWhereInput =
     andConditions.length > 0 ? { AND: andConditions } : {};
