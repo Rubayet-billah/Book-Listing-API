@@ -24,4 +24,10 @@ router.get(
   orderController.getCustomerOrders
 );
 
+router.get(
+  '/:orderId',
+  auth(ENUM_USER_ROLE.CUSTOMER, ENUM_USER_ROLE.ADMIN), // Allow specific customers and admins
+  orderController.getSingleOrderById
+);
+
 export const orderRouter = router;

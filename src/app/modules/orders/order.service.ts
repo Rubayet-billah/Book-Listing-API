@@ -48,8 +48,31 @@ const getCustomerOrders = async (customerId: string): Promise<Order[]> => {
   return customerOrders;
 };
 
+const getSingleOrderById = async (
+  orderId: string,
+  userId: string
+): Promise<Order | null> => {
+  const existingUser = await prisma.user.findUnique({
+    where: {
+      id: userId,
+    },
+  });
+
+  const order = await prisma.order.findUnique({
+    where: {
+      id: orderId,
+    },
+  });
+  if (existingUser?.role !== 'admin' && order?.userId !== userId) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'User not authorized');
+  }
+
+  return order;
+};
+
 export const orderService = {
   createOrder,
   getAllOrders,
   getCustomerOrders,
+  getSingleOrderById,
 };
