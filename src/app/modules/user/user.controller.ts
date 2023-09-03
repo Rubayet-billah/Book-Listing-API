@@ -13,11 +13,11 @@ import { userService } from './user.service';
 const signupUser = catchAsync(async (req: Request, res: Response) => {
   const userData = req.body;
   const result = await userService.signupUser(userData);
-  const { email, role } = result;
+  const { id, email, role } = result;
 
   // If registration is successful, you can generate a JWT token for authentication
   jwtHelpers.createToken(
-    { email, role },
+    { userId: id, email, role },
     config.jwt.secret as Secret,
     config.jwt.expires_in as string
   );
@@ -45,7 +45,7 @@ const loginUser = catchAsync(async (req: Request, res: Response) => {
 
   // If login is successful, you can generate a JWT token for authentication
   const token = jwtHelpers.createToken(
-    { email: user?.email, role: user.role },
+    { userId: user?.id, email: user?.email, role: user.role },
     config.jwt.secret as Secret,
     config.jwt.expires_in as string
   );
