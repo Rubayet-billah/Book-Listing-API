@@ -12,9 +12,9 @@ router.post(
   auth(ENUM_USER_ROLE.ADMIN),
   bookController.createBook
 );
-router.get('/', bookController.getAllBooks);
 router.get('/:id', bookController.getSingleBook);
 router.get('/:categoryId/category', bookController.getBooksByCategoryId);
+router.get('/', bookController.getAllBooks);
 router.patch('/:id', auth(ENUM_USER_ROLE.ADMIN), bookController.updateBook);
 router.delete('/:id', auth(ENUM_USER_ROLE.ADMIN), bookController.deleteBook);
 
