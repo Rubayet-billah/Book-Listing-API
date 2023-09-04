@@ -20,7 +20,14 @@ const prisma_1 = __importDefault(require("../../../shared/prisma"));
 const createOrder = (userId, orderData) => __awaiter(void 0, void 0, void 0, function* () {
     // Implement your logic to create an order here
     // You'll need to save the order in the database and associate it with the user
-    // Example code (replace with actual implementation):
+    const existingUser = yield prisma_1.default.user.findUnique({
+        where: {
+            id: userId,
+        },
+    });
+    if (!existingUser) {
+        throw new ApiError_1.default(http_status_1.default.NOT_FOUND, 'User not found');
+    }
     const result = yield prisma_1.default.order.create({
         data: Object.assign(Object.assign({ userId }, orderData), { status: 'pending' }),
     });
