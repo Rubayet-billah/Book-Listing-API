@@ -8,8 +8,16 @@ import prisma from '../../../shared/prisma';
 const createOrder = async (userId: string, orderData: any): Promise<Order> => {
   // Implement your logic to create an order here
   // You'll need to save the order in the database and associate it with the user
+  const existingUser = await prisma.user.findUnique({
+    where: {
+      id: userId,
+    },
+  });
 
-  // Example code (replace with actual implementation):
+  if (!existingUser) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
+  }
+
   const result = await prisma.order.create({
     data: {
       userId,
