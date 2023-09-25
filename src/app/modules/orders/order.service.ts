@@ -1,6 +1,6 @@
 // src/app/modules/order/order.service.ts
 
-import { Order } from '@prisma/client';
+import { Order, User } from '@prisma/client';
 import httpStatus from 'http-status';
 import ApiError from '../../../errors/ApiError';
 import prisma from '../../../shared/prisma';
@@ -29,8 +29,16 @@ const createOrder = async (userId: string, orderData: any): Promise<Order> => {
   return result;
 };
 
-const getAllOrders = async (): Promise<Order[]> => {
+const getAllOrders = async (user: Partial<User> | any): Promise<Order[]> => {
   // Implement your logic to retrieve all orders here
+  if (user && user.role === 'customer') {
+    const orders = await prisma.order.findMany({
+      where: {
+        userId: user?.userId,
+      },
+    });
+    return orders;
+  }
   const orders = await prisma.order.findMany();
   return orders;
 };

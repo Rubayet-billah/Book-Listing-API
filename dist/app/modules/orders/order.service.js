@@ -33,8 +33,16 @@ const createOrder = (userId, orderData) => __awaiter(void 0, void 0, void 0, fun
     });
     return result;
 });
-const getAllOrders = () => __awaiter(void 0, void 0, void 0, function* () {
+const getAllOrders = (user) => __awaiter(void 0, void 0, void 0, function* () {
     // Implement your logic to retrieve all orders here
+    if (user && user.role === 'customer') {
+        const orders = yield prisma_1.default.order.findMany({
+            where: {
+                userId: user === null || user === void 0 ? void 0 : user.userId,
+            },
+        });
+        return orders;
+    }
     const orders = yield prisma_1.default.order.findMany();
     return orders;
 });

@@ -21,7 +21,8 @@ const createOrder = catchAsync(async (req: Request, res: Response) => {
 });
 
 const getAllOrders = catchAsync(async (req: Request, res: Response) => {
-  const orders = await orderService.getAllOrders();
+  const user = req.user;
+  const orders = await orderService.getAllOrders(user);
 
   sendResponse(res, {
     success: true,

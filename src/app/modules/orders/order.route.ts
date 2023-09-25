@@ -15,7 +15,11 @@ router.post(
 );
 
 // Get All Orders (Only Allowed For Admins)
-router.get('/', auth(ENUM_USER_ROLE.ADMIN), orderController.getAllOrders);
+router.get(
+  '/',
+  auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.CUSTOMER),
+  orderController.getAllOrders
+);
 
 // Get All Orders for Specific Customer (Specific Customers Only)
 router.get(

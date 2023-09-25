@@ -13,7 +13,7 @@ const router = express_1.default.Router();
 // Create Order (Only Allowed For Customer)
 router.post('/create-order', (0, auth_1.default)(user_1.ENUM_USER_ROLE.CUSTOMER), order_controller_1.orderController.createOrder);
 // Get All Orders (Only Allowed For Admins)
-router.get('/', (0, auth_1.default)(user_1.ENUM_USER_ROLE.ADMIN), order_controller_1.orderController.getAllOrders);
+router.get('/', (0, auth_1.default)(user_1.ENUM_USER_ROLE.ADMIN, user_1.ENUM_USER_ROLE.CUSTOMER), order_controller_1.orderController.getAllOrders);
 // Get All Orders for Specific Customer (Specific Customers Only)
 router.get('/customer-orders', (0, auth_1.default)(user_1.ENUM_USER_ROLE.CUSTOMER), order_controller_1.orderController.getCustomerOrders);
 router.get('/:orderId', (0, auth_1.default)(user_1.ENUM_USER_ROLE.CUSTOMER, user_1.ENUM_USER_ROLE.ADMIN), // Allow specific customers and admins

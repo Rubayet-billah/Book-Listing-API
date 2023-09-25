@@ -30,7 +30,8 @@ const createOrder = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, vo
     });
 }));
 const getAllOrders = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const orders = yield order_service_1.orderService.getAllOrders();
+    const user = req.user;
+    const orders = yield order_service_1.orderService.getAllOrders(user);
     (0, sendResponse_1.default)(res, {
         success: true,
         statusCode: http_status_1.default.OK,
